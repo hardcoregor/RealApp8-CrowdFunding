@@ -2,7 +2,7 @@ import React from 'react'
 
 const createcampaign = () => {
   return (
-    <div>createcampaign</div>
+    <div className='flex'>createcampaign</div>
   )
 }
 

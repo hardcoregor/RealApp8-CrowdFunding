@@ -33,7 +33,7 @@ const Sidebar = () => {
   const router = useRouter();
 
   return (
-    <div className='flex justify-between items-center flex-col sticky top-5 h-[93vh]'>
+    <div className='flex justify-between items-center flex-col sticky top-5 h-[93vh] sm:hidden'>
       <Link href="/">
         <Icon styles='w-[52px] h-[52px] bg-[#2c2f32]' imgUrl={logo} />
       </Link>

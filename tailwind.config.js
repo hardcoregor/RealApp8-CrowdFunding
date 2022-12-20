@@ -27,6 +27,7 @@ module.exports = {
         215: '215px',
         357: '357px',
         557: '557px',
+        95: '97%',
       },
       minWidth: {
         155: '155px',
@@ -42,6 +43,7 @@ module.exports = {
       height: {
         300: '300px',
         557: '557px',
+        95: '96%',
       },
       inset: {
         45: '45%',
@@ -63,6 +65,7 @@ module.exports = {
       },
     },
     screens: {
+      mega: { max: '5000px' },
       lg: { max: '1800px' },
       md: { max: '990px' },
       sm: { max: '600px' },
