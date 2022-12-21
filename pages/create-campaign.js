@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { ethers } from 'ethers';
 
+import { useStateContext } from '../context';
 import { money } from '../assets';
 import CustomButton from '../components/CustomButton';
 import { checkIfImage } from '../utils';
@@ -9,6 +10,7 @@ import FormField from '../components/FormField';
 import Image from 'next/image';
 
 const createcampaign = () => {
+  const { publishCampaign } = useStateContext();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [form, setForm] = useState({
@@ -24,9 +26,20 @@ const createcampaign = () => {
     setForm({ ...form, [fieldName]: e.target.value })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(form);
+
+    checkIfImage(form.image, async(exists) => {
+      if(exists) {
+        setIsLoading(true);
+        await publishCampaign({...form});
+        setIsLoading(false);
+        router.push('/');
+      } else {
+        alert('Provide valid image URL')
+        setForm({...form, image:''});
+      }
+    })
   }
 
   return (

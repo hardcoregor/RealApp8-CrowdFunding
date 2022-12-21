@@ -1,19 +1,19 @@
 import Link from 'next/link';
 import React, { useState } from 'react';
-import Router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
 
+import { useStateContext } from '../context';
 import CustomButton from './CustomButton';
 import { logo, menu, search, thirdweb } from '../assets';
 import { navlinks } from '../constants';
 
 
 const Navbar = () => {
+  const { currentAccount, connectWallet } = useStateContext();
   const router = useRouter();
   const [isActive, setIsActive] = useState('dashboard');
   const [toggleDrawer, setToggleDrawer] = useState(false);
-
-  const address = '0x1kajvsda';
 
   return (
     <div className='flex md:flex-col-reverse justify-between mb-[35px] gap-3'>
@@ -33,12 +33,12 @@ const Navbar = () => {
       <div className='flex flex-row justify-end gap-4'>
         <CustomButton
           btnType="button"
-          title={address ? 'Create a campaign' : 'Connect'}
-          styles={address ? 'sm:hidden bg-[#1dc071]' : 'bg-[#8c6dfd]'}
+          title={currentAccount ? 'Create a campaign' : 'Connect'}
+          styles={currentAccount ? 'sm:hidden bg-[#1dc071]' : 'bg-[#8c6dfd]'}
           handleClick={() => {
-            if (address)
+            if (currentAccount)
               router.push('create-campaign')
-            else 'connect()'
+            else connectWallet()
           }}
         />
 
@@ -57,7 +57,7 @@ const Navbar = () => {
       <div className='sm:flex justify-between items-center relative md:hidden lg:hidden mega:hidden'>
         <div className='w-[40px] h-[40px] rounded-[10px] bg-[#2c2f32] flex justify-center items-center cursor-pointer'>
           <Image
-            src={thirdweb}
+            src={logo}
             alt="user"
             className='w-[60%] h-[60%] object-contain'
           />
@@ -97,12 +97,12 @@ const Navbar = () => {
           <div className='flex mx-4'>
             <CustomButton
               btnType="button"
-              title={address ? 'Create a campaign' : 'Connect'}
-              styles={address ? 'bg-[#1dc071]' : 'bg-[#8c6dfd]'}
+              title={currentAccount ? 'Create a campaign' : 'Connect'}
+              styles={currentAccount ? 'bg-[#1dc071]' : 'bg-[#8c6dfd]'}
               handleClick={() => {
-                if (address)
+                if (currentAccount)
                   router.push('create-campaign')
-                else 'connect()'
+                else connectWallet();
               }}
             />
           </div>
