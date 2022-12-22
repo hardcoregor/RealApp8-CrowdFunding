@@ -8,9 +8,11 @@ import { calculateBarPercentage, daysLeft } from '../utils'
 import { thirdweb } from '../assets';
 import Image from 'next/image';
 import CountBox from '../components/CountBox';
+import Loader from '../components/Loader';
 
 const campaigndetails = () => {
   const { query } = useRouter();
+  const router = useRouter();
   const { getDonations, getContract, currentAccount, getUserCampaigns, donate } = useStateContext();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -35,7 +37,14 @@ const campaigndetails = () => {
 
   const handleDonate = async () => {
     setIsLoading(true);
-    await donate(query.pId, amount)
+
+    try {
+      await donate(query.pId, amount)
+      router.push('/');
+    } catch (error) {
+      console.log(error);
+    }
+
     setIsLoading(false);
   }
 
@@ -48,7 +57,7 @@ const campaigndetails = () => {
 
   return (
     <div>
-      {isLoading && 'Loadings...'}
+      {isLoading && <Loader />}
 
       <div className='w-full flex md:flex-row flex-col mt-10 gap-[30px]'>
         <div className='flex-1 flex-col'>
@@ -105,10 +114,10 @@ const campaigndetails = () => {
             <div className='my-[20px] flex flex-col gap-4'>
               {donators.length > 0 ? donators.map((item, index) => (
                 <div
-                key={`${item.donator}-${index}`}
-                className="flex justify-between items-center gap-4"
+                  key={`${item.donator}-${index}`}
+                  className="flex justify-between items-center gap-4"
                 >
-                  <p className='font-epilogue font-normal text-[16px] text-[#b2b3bd] leading-[26px] break-all'>{index +1}.{item.donator}</p>
+                  <p className='font-epilogue font-normal text-[16px] text-[#b2b3bd] leading-[26px] break-all'>{index + 1}.{item.donator}</p>
                   <p className='font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] break-all'>{item.donation} ETH</p>
                 </div>
               )) : (
