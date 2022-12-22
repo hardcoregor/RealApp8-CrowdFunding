@@ -9,7 +9,12 @@ const DisplayCampaigns = ({ title, isLoading, campaigns }) => {
   const router = useRouter();
 
   const handleNavigate = (campaign) => {
-    router.push(`/campaign-details/${campaign.title}`, { state: campaign });
+    router.push({
+      // pathname: `/campaign-details/${campaign.title}`,
+      pathname: `/campaign-details`,
+      query: campaign
+    });
+    // router.push(`/campaign-details/${campaign.title}`, { state: campaign });
   }
 
   return (

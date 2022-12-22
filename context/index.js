@@ -72,7 +72,7 @@ export const StateContextProvider = ({ children }) => {
       owner: campaign.owner,
       title: campaign.title,
       description: campaign.description,
-      target:ethers.utils.formatEther(campaign.target.toString()),
+      target: ethers.utils.formatEther(campaign.target.toString()),
       deadline: campaign.deadline.toNumber(),
       amountCollected: ethers.utils.formatEther(campaign.amountCollected.toString()),
       image: campaign.image,
@@ -82,10 +82,41 @@ export const StateContextProvider = ({ children }) => {
     return parsedCampaigns;
   }
 
+  const getUserCampaigns = async () => {
+    const allCampaigns = await getCampaigns();
+
+    const filteredCampaigns = allCampaigns.filter((campaign) => (campaign.owner).toLowerCase() === (currentAccount).toLowerCase());
+
+    return filteredCampaigns;
+  }
+
+  const donate = async (pId, amount) => {
+    const contract = await getContract();
+    const data = await contract.donateToCampaign(pId, { value: ethers.utils.parseEther(amount) });
+
+    return data;
+  }
+
+  const getDonations = async (pId) => {
+    const contract = await getContract();
+    const donations = await contract.getDonators(pId);
+    const numberOfDonations = donations[0].length;
+
+    const parsedDonations = [];
+
+    for(let i = 0; i < numberOfDonations; i++) {
+      parsedDonations.push({
+        donator: donations[0][i],
+        donation: ethers.utils.formatEther(donations[1][i].toString())
+      })
+    }
+
+    return parsedDonations;
+  }
 
   return (
     <StateContext.Provider
-      value={{ connectWallet, publishCampaign, currentAccount, getContract, getCampaigns }}
+      value={{ connectWallet, publishCampaign, currentAccount, getContract, getCampaigns, getUserCampaigns, donate, getDonations }}
     >
       {children}
     </StateContext.Provider>
