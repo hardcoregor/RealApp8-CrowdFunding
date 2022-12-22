@@ -7,7 +7,7 @@ export default function App({ Component, pageProps }) {
   return (
     <StateContextProvider>
     <div className="relative sm:-8 p-4 bg-[#13131a] min-h-screen flex flex-row">
-      <div className="sm:flex mr-10 relative">
+      <div className="sm:flex mr-10 sm:mr-0 relative">
         <Sidebar />
       </div>
 
